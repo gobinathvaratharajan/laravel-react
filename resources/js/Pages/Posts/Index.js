@@ -1,5 +1,6 @@
 import axios from 'axios';
 import React from 'react';
+import CategoryService from '../../Services/CategoryServices';
 
 class PostsIndex extends React.Component {
   constructor(props) {
@@ -23,11 +24,11 @@ class PostsIndex extends React.Component {
       .then((resp) => this.setState({ posts: resp.data }));
   }
 
-  fetchCategories() {
-    axios
-      .get('/api/categories')
-      .then((resp) => this.setState({ categories: resp.data.data }));
-  }
+  //   fetchCategories() {
+  //     axios
+  //       .get('/api/categories')
+  //       .then((resp) => this.setState({ categories: resp.data.data }));
+  //   }
 
   pageTracking = (url) => {
     const fullUrl = new URL(url);
@@ -60,7 +61,10 @@ class PostsIndex extends React.Component {
 
   componentDidMount() {
     this.fetchPost();
-    this.fetchCategories();
+    //   this.fetchCategories();
+    CategoryService.getAll().then((resp) =>
+      this.setState({ categories: resp.data.data }),
+    );
   }
 
   renderPost = () => {
