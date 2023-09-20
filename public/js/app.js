@@ -2316,12 +2316,46 @@ var PostsIndex = /*#__PURE__*/function (_React$Component) {
       });
     });
 
+    _defineProperty(_assertThisInitialized(_this), "orderIcon", function (column) {
+      var icon = 'fa-sort';
+      var query = _this.state.query;
+
+      if (query.order_column === column) {
+        query.order_direction === 'asc' ? icon = 'fa-sort-up' : icon = 'fa-sort-down';
+      }
+
+      return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("i", {
+        className: "fa-solid ".concat(icon)
+      });
+    });
+
+    _defineProperty(_assertThisInitialized(_this), "updateOrder", function (column) {
+      var query = _this.state.query;
+      var direction = 'asc';
+
+      if (column === query.order_column) {
+        direction = query.order_direction === 'asc' ? 'desc' : 'asc';
+      }
+
+      _this.setState({
+        query: {
+          page: 1,
+          order_column: column,
+          order_direction: direction
+        }
+      }, function () {
+        return _this.fetchPost();
+      });
+    });
+
     _this.state = {
       posts: [],
       categories: [],
       query: {
         page: 1,
-        category_id: ''
+        category_id: '',
+        order_column: 'id',
+        order_direction: 'desc'
       }
     };
     return _this;
@@ -2361,6 +2395,8 @@ var PostsIndex = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "render",
     value: function render() {
+      var _this4 = this;
+
       if (!('data' in this.state.posts)) return;
       return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
         className: "overflow-hidden overflow-x-auto p-6 bg-white border-gray-200",
@@ -2375,24 +2411,48 @@ var PostsIndex = /*#__PURE__*/function (_React$Component) {
               className: "table-header",
               children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("tr", {
                 children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("th", {
-                  children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("span", {
-                    children: "ID"
+                  children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
+                    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("span", {
+                      children: "ID"
+                    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("button", {
+                      onClick: function onClick() {
+                        return _this4.updateOrder('id');
+                      },
+                      type: "button",
+                      className: "column-sort",
+                      children: this.orderIcon('id')
+                    })]
                   })
                 }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("th", {
-                  children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("span", {
-                    children: "Title"
+                  children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
+                    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("span", {
+                      children: "Title"
+                    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("button", {
+                      onClick: function onClick() {
+                        return _this4.updateOrder('title');
+                      },
+                      type: "button",
+                      className: "column-sort",
+                      children: this.orderIcon('title')
+                    })]
                   })
                 }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("th", {
-                  children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("span", {
-                    children: "Category"
+                  children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
+                    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("span", {
+                      children: "Category"
+                    })
                   })
                 }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("th", {
-                  children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("span", {
-                    children: "Content"
+                  children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
+                    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("span", {
+                      children: "Content"
+                    })
                   })
                 }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("th", {
-                  children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("span", {
-                    children: "Created At"
+                  children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
+                    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("span", {
+                      children: "Created At"
+                    })
                   })
                 })]
               })

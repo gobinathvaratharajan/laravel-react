@@ -11,6 +11,8 @@ class PostsIndex extends React.Component {
       query: {
         page: 1,
         category_id: '',
+        order_column: 'id',
+        order_direction: 'desc',
       },
     };
   }
@@ -130,6 +132,36 @@ class PostsIndex extends React.Component {
     ));
   };
 
+  orderIcon = (column) => {
+    let icon = 'fa-sort';
+    const { query } = this.state;
+    if (query.order_column === column) {
+      query.order_direction === 'asc'
+        ? (icon = 'fa-sort-up')
+        : (icon = 'fa-sort-down');
+    }
+
+    return <i className={`fa-solid ${icon}`}></i>;
+  };
+
+  updateOrder = (column) => {
+    const { query } = this.state;
+    let direction = 'asc';
+    if (column === query.order_column) {
+      direction = query.order_direction === 'asc' ? 'desc' : 'asc';
+    }
+    this.setState(
+      {
+        query: {
+          page: 1,
+          order_column: column,
+          order_direction: direction,
+        },
+      },
+      () => this.fetchPost(),
+    );
+  };
+
   render() {
     if (!('data' in this.state.posts)) return;
     return (
@@ -140,19 +172,43 @@ class PostsIndex extends React.Component {
             <thead className="table-header">
               <tr>
                 <th>
-                  <span>ID</span>
+                  <div>
+                    <span>ID</span>
+                    <button
+                      onClick={() => this.updateOrder('id')}
+                      type="button"
+                      className="column-sort"
+                    >
+                      {this.orderIcon('id')}
+                    </button>
+                  </div>
                 </th>
                 <th>
-                  <span>Title</span>
+                  <div>
+                    <span>Title</span>
+                    <button
+                      onClick={() => this.updateOrder('title')}
+                      type="button"
+                      className="column-sort"
+                    >
+                      {this.orderIcon('title')}
+                    </button>
+                  </div>
                 </th>
                 <th>
-                  <span>Category</span>
+                  <div>
+                    <span>Category</span>
+                  </div>
                 </th>
                 <th>
-                  <span>Content</span>
+                  <div>
+                    <span>Content</span>
+                  </div>
                 </th>
                 <th>
-                  <span>Created At</span>
+                  <div>
+                    <span>Created At</span>
+                  </div>
                 </th>
               </tr>
             </thead>
