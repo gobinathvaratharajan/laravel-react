@@ -72,7 +72,7 @@ class PostCreate extends React.Component {
   };
 
   render() {
-    const { title, content, category_id, categories, errors } = this.state;
+    const { title, content, category_id, categories } = this.state;
     return (
       <form onSubmit={this.handleSubmit}>
         <div>
