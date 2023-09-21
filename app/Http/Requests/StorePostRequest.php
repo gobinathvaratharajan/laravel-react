@@ -30,4 +30,10 @@ class StorePostRequest extends FormRequest
             'category_id' => 'required',
         ];
     }
+
+    public function attributes() {
+        return [
+            'category_id' => 'category',
+        ];
+    }
 }
