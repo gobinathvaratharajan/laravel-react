@@ -18,7 +18,7 @@ class PostsIndex extends React.Component {
     };
   }
 
-  fetchPost(page = 1) {
+  fetchPost() {
     axios
       .get('/api/posts', { params: this.state.query })
       .then((resp) => this.setState({ posts: resp.data }));
