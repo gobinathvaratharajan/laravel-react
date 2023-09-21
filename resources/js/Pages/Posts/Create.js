@@ -14,6 +14,7 @@ class PostCreate extends React.Component {
       content: '',
       category_id: '',
       categories: [],
+      error: {},
     };
   }
 
@@ -41,6 +42,17 @@ class PostCreate extends React.Component {
     });
   };
 
+  errorMessage = (field) => {
+    const { errors } = this.state;
+    return (
+      <div className="text-red-600 mt-2">
+        {errors?.[field]?.map((message, index) => {
+          return <div key={index}>{message}</div>;
+        })}
+      </div>
+    );
+  };
+
   handleSubmit = (event) => {
     event.preventDefault();
     axios
@@ -49,13 +61,18 @@ class PostCreate extends React.Component {
         content: this.state.content,
         category_id: this.state.category_id,
       })
-      .then((resp) => this.props.navigate('/'));
+      .then((resp) => this.props.navigate('/'))
+      .catch((error) =>
+        this.setState({
+          errors: error.resp.data.errors,
+        }),
+      );
 
     console.log('success');
   };
 
   render() {
-    const { title, content, category_id, categories } = this.state;
+    const { title, content, category_id, categories, errors } = this.state;
     return (
       <form onSubmit={this.handleSubmit}>
         <div>
@@ -72,6 +89,7 @@ class PostCreate extends React.Component {
             type="text"
             className="block mt-1 w-full rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
           />
+          {this.errorMessage('title')}
         </div>
         <div className="mt-4">
           <label
@@ -87,6 +105,7 @@ class PostCreate extends React.Component {
             type="text"
             className="block mt-1 w-full rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
           />
+          {this.errorMessage('content')}
         </div>
         <div className="mt-4">
           <label
@@ -108,6 +127,7 @@ class PostCreate extends React.Component {
               </option>
             ))}
           </select>
+          {this.errorMessage('category_id')}
         </div>
         <div className="mt-4">
           <button
